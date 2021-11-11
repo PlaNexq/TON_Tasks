@@ -23,15 +23,15 @@ import "AHasConstructorWithPubKey.sol";
 abstract contract AShoppingListInitDebot is Debot, Upgradable {
         bytes m_icon;
 
-    TvmCell m_shoppinglistCode; // TODO contract code
-    address m_address;  // TODO contract address
+    TvmCell m_shoppinglistCode; // Shopping list contract code
+    address m_address;  // Shopping list contract address
     ItemsSummary m_itemsSummary;        // Statistics of incompleted and completed items
-    uint32 m_itemId;    // Item id for update. I didn't find a way to make this var local
+    uint32 m_itemId;    // Item id for update
     string m_itemName;  // Item name for update
     uint256 m_masterPubKey; // User pubkey
     address m_msigAddress;  // User wallet address
 
-    uint32 INITIAL_BALANCE =  200000000;  // Initial TODO contract balance
+    uint32 INITIAL_BALANCE =  200000000;  // Initial Shopping list contract balance
 
 
     function setShoppingListCode(TvmCell code) public {
@@ -80,7 +80,7 @@ abstract contract AShoppingListInitDebot is Debot, Upgradable {
             _getStat(tvm.functionId(setStat));
 
         } else if (acc_type == -1)  { // acc is inactive
-            Terminal.print(0, "You don't have a TODO list yet, so a new contract with an initial balance of 0.2 tokens will be deployed");
+            Terminal.print(0, "You don't have a Shopping list yet, so a new contract with an initial balance of 0.2 tokens will be deployed");
             AddressInput.get(tvm.functionId(creditAccount),"Select a wallet for payment. We will ask you to sign two transactions");
 
         } else  if (acc_type == 0) { // acc is uninitialized
@@ -112,7 +112,6 @@ abstract contract AShoppingListInitDebot is Debot, Upgradable {
     }
 
     function onErrorRepeatCredit(uint32 sdkError, uint32 exitCode) public {
-        // TODO: check errors if needed.
         sdkError;
         exitCode;
         creditAccount(m_msigAddress);
@@ -152,7 +151,6 @@ abstract contract AShoppingListInitDebot is Debot, Upgradable {
 
 
     function onErrorRepeatDeploy(uint32 sdkError, uint32 exitCode) public view {
-        // TODO: check errors if needed.
         sdkError;
         exitCode;
         deploy();
